@@ -19,12 +19,12 @@ jobs:
       - name: Get current date
         run: echo "CURRENT_DATE=$(date +"%Y%m%d")"  >> $GITHUB_ENV
       - name: Set the tag
-        run: echo "NIGHTLY_BUILD_TAG=nocodb-dev-${{ CURRENT_DATE }}" >> $GITHUB_ENV
+        run: echo "NIGHTLY_BUILD_TAG=nocodb-dev-${{ env.CURRENT_DATE }}" >> $GITHUB_ENV
       - name: Verify the tag
-        run: echo "$NIGHTLY_BUILD_TAG"
+        run: echo "${{ env.NIGHTLY_BUILD_TAG }}"
   # Build docker image and push to docker hub
   # release-docker:
   #   needs: release-draft-note
   #   uses: ./.github/workflows/release-docker.yml
   #   with:
-  #     tag: ${{ github.event.inputs.tag || NIGHTLY_BUILD_TAG }}
+  #     tag: ${{ github.event.inputs.tag ||  env.NIGHTLY_BUILD_TAG }}
