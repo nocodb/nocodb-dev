@@ -10,6 +10,8 @@ on:
   schedule:
     # at the end of every day
     - cron: '0 0 * * *'
+env:
+  NIGHTLY_BUILD_TAG: ""
 jobs:
   # enrich tag for nightly auto release
   set-tag:
