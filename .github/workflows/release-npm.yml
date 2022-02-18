@@ -35,7 +35,7 @@ jobs:
           npm run build:copy:jsdeliver
           cd ../..
           npm install
-          VERSION=${{ github.event.inputs.tag || inputs.tag }} node scripts/upgradeNcGui.js node scripts/upgradeNcGui.js && cd packages/nocodb && npm run obfuscate:build:publish
+          VERSION=${{ github.event.inputs.tag || inputs.tag }} node scripts/upgradeNcGui.js && cd packages/nocodb && npm run obfuscate:build:publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
       - name: Create Pull Request
