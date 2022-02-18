@@ -1,0 +1,48 @@
+name: "Release : Draft Notes"
+
+on:
+  # Triggered manually
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: "Tag"
+        required: true
+      prev_tag:
+        description: "Previous Tag"
+        required: true
+  # Triggered by release-nocodb.yml
+  workflow_call:
+    inputs:
+      tag:
+        description: "Tag"
+        required: true
+        type: string
+      prev_tag:
+        description: "Previous Tag"
+        required: true
+        type: string
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Create tag
+        uses: actions/github-script@v3
+        with:
+          github-token: ${{ secrets.GH_TOKEN }}
+          script: |
+            github.git.createRef({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              ref: "refs/tags/${{ github.event.inputs.tag || inputs.tag }}",
+              sha: context.sha
+            })
+
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v2
+        with:
+          node-version: 14
+      - run: "npx github-release-notes@0.17.2  release --token ${{ secrets.GH_TOKEN }}  --draft --tags ${{ github.event.inputs.tag || inputs.tag }}..${{ github.event.inputs.prev_tag || inputs.prev_tag }}"
