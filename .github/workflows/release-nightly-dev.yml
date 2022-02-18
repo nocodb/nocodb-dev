@@ -19,11 +19,11 @@ jobs:
       - id: tag-step
         run: |
           # Get current date
-          echo "CURRENT_DATE=$(date +"%Y%m%d")"  >> $GITHUB_ENV
+          export CURRENT_DATE=$(date +"%Y%m%d")
           # Set the tag
-          echo "::set-output name=NIGHTLY_BUILD_TAG::nightly-${{ env.CURRENT_DATE }}"
+          echo "::set-output name=NIGHTLY_BUILD_TAG::nightly-${CURRENT_DATE}"
           # Verify the tag
-          echo "${{ env.NIGHTLY_BUILD_TAG }}"
+          echo "${{ steps.tag-step.outputs.NIGHTLY_BUILD_TAG }}"
 #   Build docker image and push to docker hub
   release-docker:
     uses: ./.github/workflows/release-docker.yml
