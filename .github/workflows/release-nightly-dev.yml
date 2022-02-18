@@ -16,7 +16,8 @@ jobs:
     runs-on: 'ubuntu-latest'
 #     if: (github.event_name == 'schedule')
     steps:
-      - id: tag-step
+      - name: set-tag
+        id: tag-step
         run: |
           # Get current date
           export CURRENT_DATE=$(date +"%Y%m%d")
@@ -24,9 +25,16 @@ jobs:
           # Set the tag
           echo "::set-output name=NIGHTLY_BUILD_TAG::nightly-${CURRENT_DATE}"
           # Verify the tag
-          echo "${{ steps.tag-step.outputs.NIGHTLY_BUILD_TAG }}"
+      - name: verify-tag
+        run: echo ${{ steps.tag-step.outputs.NIGHTLY_BUILD_TAG }}
     outputs:
       nightly_build_tag: ${{ steps.tag-step.outputs.NIGHTLY_BUILD_TAG }}
+  test:
+    runs-on: 'ubuntu-latest'
+    steps:
+      - name: verify
+        run: |
+          echo {{ jobs.set-tag.outputs.nightly_build_tag }}
 #   Build docker image and push to docker hub
 #   release-docker:
 #     uses: ./.github/workflows/release-docker.yml
