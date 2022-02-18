@@ -31,10 +31,11 @@ jobs:
       nightly_build_tag: ${{ steps.tag-step.outputs.NIGHTLY_BUILD_TAG }}
   test:
     runs-on: 'ubuntu-latest'
+    needs: set-tag
     steps:
       - name: verify
         run: |
-          echo {{ jobs.set-tag.outputs.nightly_build_tag }}
+          echo {{ needs.set-tag.outputs.nightly_build_tag }}
 #   Build docker image and push to docker hub
 #   release-docker:
 #     uses: ./.github/workflows/release-docker.yml
