@@ -3,6 +3,14 @@ name: 'NocoDB Nightly Dev Release'
 on:
   # Triggered manually
   workflow_dispatch:
+    inputs:
+      targetEnv:
+        description: "Target Environment"
+        required: true
+        type: choice
+        options:
+        - DEV
+        - PROD
   schedule:
     # at the end of every day
     - cron: '0 0 * * *'
@@ -18,8 +26,7 @@ jobs:
           # Get current date
           CURRENT_DATE=$(date +"%Y%m%d")
           CURRENT_TIME=$(date +"%H%M")
-          echo ${CURRENT_DATE}
-          TAG_NAME=nightly-${CURRENT_DATE}
+          TAG_NAME=${CURRENT_DATE}
           # Set the tag
           if [[ ${{ github.event_name }} == 'workflow_dispatch' ]]; then
             TAG_NAME=${TAG_NAME}-${CURRENT_TIME}
@@ -30,19 +37,13 @@ jobs:
         run: echo ${{ steps.tag-step.outputs.NIGHTLY_BUILD_TAG }}
     outputs:
       nightly_build_tag: ${{ steps.tag-step.outputs.NIGHTLY_BUILD_TAG }}
-#   verify-in-another-job:
-#     runs-on: 'ubuntu-latest'
-#     needs: set-tag
-#     steps:
-#       - name: verify
-#         run: |
-#           echo ${{ needs.set-tag.outputs.nightly_build_tag }}
-#   Build docker image and push to docker hub
+  # Build docker image and push to docker hub
   release-docker:
     needs: set-tag
     uses: ./.github/workflows/release-docker.yml
     with:
       tag: ${{ needs.set-tag.outputs.nightly_build_tag }}
+      targetEnv: ${{ github.event.inputs.targetEnv || 'DEV' }}
     secrets:
       DOCKERHUB_USERNAME: "${{ secrets.DOCKERHUB_USERNAME }}"
       DOCKERHUB_TOKEN: "${{ secrets.DOCKERHUB_TOKEN }}"
