@@ -35,7 +35,8 @@ jobs:
     steps:
       - name: verify
         run: |
-          echo {{ needs.set-tag.outputs.nightly_build_tag }}
+          echo ${{ jobs.set-tag.outputs.nightly_build_tag }}
+          echo ${{ needs.set-tag.outputs.nightly_build_tag }}
 #   Build docker image and push to docker hub
 #   release-docker:
 #     uses: ./.github/workflows/release-docker.yml
