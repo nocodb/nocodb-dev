@@ -3,10 +3,6 @@ name: 'NocoDB Nightly Dev Release'
 on:
   # Triggered manually
   workflow_dispatch:
-    inputs:
-      tag:
-        description: "Target Tag"
-        required: true
   schedule:
     # at the end of every day
     - cron: '0 0 * * *'
@@ -20,10 +16,15 @@ jobs:
         id: tag-step
         run: |
           # Get current date
-          export CURRENT_DATE=$(date +"%Y%m%d")
+          CURRENT_DATE=$(date +"%Y%m%d")
+          CURRENT_TIME=$(date +"%H%M")
           echo ${CURRENT_DATE}
+          TAG_NAME=nightly-${CURRENT_DATE}
           # Set the tag
-          echo "::set-output name=NIGHTLY_BUILD_TAG::nightly-${CURRENT_DATE}"
+          if [[ ${{ github.event_name }} == 'workflow_dispatch' ]]; then
+            TAG_NAME=${TAG_NAME}-${CURRENT_TIME}
+          fi
+          echo "::set-output name=NIGHTLY_BUILD_TAG::${TAG_NAME}"
           # Verify the tag
       - name: verify-tag
         run: echo ${{ steps.tag-step.outputs.NIGHTLY_BUILD_TAG }}
@@ -41,7 +42,7 @@ jobs:
     needs: set-tag
     uses: ./.github/workflows/release-docker.yml
     with:
-      tag: ${{ github.event.inputs.tag || needs.set-tag.outputs.nightly_build_tag }}
+      tag: ${{ needs.set-tag.outputs.nightly_build_tag }}
     secrets:
       DOCKERHUB_USERNAME: "${{ secrets.DOCKERHUB_USERNAME }}"
       DOCKERHUB_TOKEN: "${{ secrets.DOCKERHUB_TOKEN }}"
