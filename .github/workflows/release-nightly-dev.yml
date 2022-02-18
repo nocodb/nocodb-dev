@@ -42,3 +42,6 @@ jobs:
     with:
       tag: $ {{ needs.set-tag.outputs.nightly_build_tag }}
 #       tag: ${{ github.event.inputs.tag ||  needs.set-tag.outputs.nightly_build_tag }}
+      secrets:
+        DOCKERHUB_USERNAME: "${{ secrets.DOCKERHUB_USERNAME }}"
+        DOCKERHUB_TOKEN: "${{ secrets.DOCKERHUB_TOKEN }}"
