@@ -14,7 +14,6 @@ jobs:
   # enrich tag for nightly auto release
   set-tag:
     runs-on: 'ubuntu-latest'
-#     if: (github.event_name == 'schedule')
     steps:
       - name: set-tag
         id: tag-step
@@ -29,17 +28,17 @@ jobs:
         run: echo ${{ steps.tag-step.outputs.NIGHTLY_BUILD_TAG }}
     outputs:
       nightly_build_tag: ${{ steps.tag-step.outputs.NIGHTLY_BUILD_TAG }}
-  test:
+  verify-in-another-job:
     runs-on: 'ubuntu-latest'
     needs: set-tag
     steps:
       - name: verify
         run: |
-          echo ${{ steps.set-tag.outputs.nightly_build_tag }}
           echo ${{ needs.set-tag.outputs.nightly_build_tag }}
 #   Build docker image and push to docker hub
-#   release-docker:
-#     uses: ./.github/workflows/release-docker.yml
-#     with:
-#       tag: $ {{ jobs.set-tag.outputs.nightly_build_tag }}
-#       tag: ${{ github.event.inputs.tag ||  jobs.set-tag.steps.tag-step.NIGHTLY_BUILD_TAG }}
+  release-docker:
+    needs: set-tag
+    uses: ./.github/workflows/release-docker.yml
+    with:
+      tag: $ {{ needs.set-tag.outputs.nightly_build_tag }}
+#       tag: ${{ github.event.inputs.tag ||  needs.set-tag.outputs.nightly_build_tag }}
