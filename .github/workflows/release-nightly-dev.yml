@@ -10,22 +10,22 @@ on:
   schedule:
     # at the end of every day
     - cron: '0 0 * * *'
-env:
-  NIGHTLY_BUILD_TAG: ""
 jobs:
   # enrich tag for nightly auto release
   set-tag:
     runs-on: 'ubuntu-20.04'
 #     if: (github.event_name == 'schedule')
     steps:
+      - id: tag-step
       - name: Get current date
         run: echo "CURRENT_DATE=$(date +"%Y%m%d")"  >> $GITHUB_ENV
       - name: Set the tag
-        run: echo "NIGHTLY_BUILD_TAG=nocodb-dev-${{ env.CURRENT_DATE }}" >> $GITHUB_ENV
+        run: echo "::set-output name=NIGHTLY_BUILD_TAG::nocodb-dev-${{ env.CURRENT_DATE }}"
       - name: Verify the tag
         run: echo "${{ env.NIGHTLY_BUILD_TAG }}"
 #   Build docker image and push to docker hub
   release-docker:
     uses: ./.github/workflows/release-docker.yml
     with:
-      tag: ${{ github.event.inputs.tag ||  env.NIGHTLY_BUILD_TAG }}
+      tag: $ {{ jobs.set-tag.steps.tag-step.NIGHTLY_BUILD_TAG }}
+#       tag: ${{ github.event.inputs.tag ||  jobs.set-tag.steps.tag-step.NIGHTLY_BUILD_TAG }}
