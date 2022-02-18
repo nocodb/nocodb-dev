@@ -1,0 +1,30 @@
+name: 'NocoDB Nightly Dev Release'
+
+on:
+  # Triggered manually
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: "Target Tag"
+        required: true
+  schedule:
+    # at the end of every day
+    - cron: '0 0 * * *'
+jobs:
+  # enrich tag for nightly auto release
+  set-tag:
+    runs-on: 'ubuntu-20.04'
+    if: (github.event_name == 'schedule')
+    steps:
+      - name: Get current date
+        run: echo "CURRENT_DATE=$(date +"%Y%m%d")"  >> $GITHUB_ENV
+      - name: Set the tag
+        run: echo "NIGHTLY_BUILD_TAG=nocodb-dev-${{ CURRENT_DATE }}" >> $GITHUB_ENV
+      - name: Verify the tag
+        run: echo "$NIGHTLY_BUILD_TAG"
+  # Build docker image and push to docker hub
+  # release-docker:
+  #   needs: release-draft-note
+  #   uses: ./.github/workflows/release-docker.yml
+  #   with:
+  #     tag: ${{ github.event.inputs.tag || NIGHTLY_BUILD_TAG }}
