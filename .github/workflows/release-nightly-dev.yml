@@ -14,7 +14,7 @@ jobs:
   # enrich tag for nightly auto release
   set-tag:
     runs-on: 'ubuntu-20.04'
-    if: (github.event_name == 'schedule')
+#     if: (github.event_name == 'schedule')
     steps:
       - name: Get current date
         run: echo "CURRENT_DATE=$(date +"%Y%m%d")"  >> $GITHUB_ENV
