@@ -13,20 +13,23 @@ on:
 jobs:
   # enrich tag for nightly auto release
   set-tag:
-    runs-on: 'ubuntu-20.04'
+    runs-on: 'ubuntu-latest'
 #     if: (github.event_name == 'schedule')
     steps:
       - id: tag-step
         run: |
           # Get current date
           export CURRENT_DATE=$(date +"%Y%m%d")
+          echo ${CURRENT_DATE}
           # Set the tag
           echo "::set-output name=NIGHTLY_BUILD_TAG::nightly-${CURRENT_DATE}"
           # Verify the tag
           echo "${{ steps.tag-step.outputs.NIGHTLY_BUILD_TAG }}"
+    outputs:
+      nightly_build_tag: ${{ steps.tag-step.outputs.NIGHTLY_BUILD_TAG }}
 #   Build docker image and push to docker hub
-  release-docker:
-    uses: ./.github/workflows/release-docker.yml
-    with:
-      tag: $ {{ jobs.set-tag.steps.tag-step.NIGHTLY_BUILD_TAG }}
+#   release-docker:
+#     uses: ./.github/workflows/release-docker.yml
+#     with:
+#       tag: $ {{ jobs.set-tag.outputs.nightly_build_tag }}
 #       tag: ${{ github.event.inputs.tag ||  jobs.set-tag.steps.tag-step.NIGHTLY_BUILD_TAG }}
