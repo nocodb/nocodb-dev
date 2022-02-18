@@ -41,15 +41,17 @@ jobs:
         node-version: [12]
     steps:
       - name: Get Docker Repository
+        id: get-docker-repository
         run: |
           DOCKER_REPOSITORY=nocodb
           if [[ ${{ github.event.inputs.targetEnv || inputs.targetEnv }} == 'DEV' ]]; then
             DOCKER_REPOSITORY=${DOCKER_REPOSITORY}-dev
           fi
+          echo "::set-output name=DOCKER_REPOSITORY::${DOCKER_REPOSITORY}"
           echo ${DOCKER_REPOSITORY}
       - name: Verifiy
         run : |
-          echo ${DOCKER_REPOSITORY} 
+          echo ${steps.get-docker-repository.outputs.DOCKER_REPOSITORY} 
 #       - name: Checkout
 #         uses: actions/checkout@v2
 
