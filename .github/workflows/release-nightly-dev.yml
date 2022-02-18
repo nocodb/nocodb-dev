@@ -20,7 +20,7 @@ jobs:
       - name: Get current date
         run: echo "CURRENT_DATE=$(date +"%Y%m%d")"  >> $GITHUB_ENV
       - name: Set the tag
-        run: echo "::set-output name=NIGHTLY_BUILD_TAG::nocodb-dev-${{ env.CURRENT_DATE }}"
+        run: echo "::set-output name=NIGHTLY_BUILD_TAG::nightly-${{ env.CURRENT_DATE }}"
       - name: Verify the tag
         run: echo "${{ env.NIGHTLY_BUILD_TAG }}"
 #   Build docker image and push to docker hub
