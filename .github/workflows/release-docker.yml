@@ -51,7 +51,7 @@ jobs:
           echo ${DOCKER_REPOSITORY}
       - name: Verifiy
         run : |
-          echo ${steps.get-docker-repository.outputs.DOCKER_REPOSITORY} 
+          echo ${{ steps.get-docker-repository.outputs.DOCKER_REPOSITORY }} 
 #       - name: Checkout
 #         uses: actions/checkout@v2
 
