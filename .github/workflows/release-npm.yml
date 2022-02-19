@@ -28,6 +28,8 @@ on:
     secrets:
       NPM_TOKEN:
         required: true
+      GITHUB_TOKEN:
+        required: true
 jobs:
   release:
     runs-on: ubuntu-latest
@@ -53,6 +55,7 @@ jobs:
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
       - name: Create Pull Request
+        if: ${{ github.event.inputs.targetEnv == 'PRD' || inputs.targetEnv == 'PRD' }}
         id: cpr
         uses: peter-evans/create-pull-request@v3
         env:
@@ -68,11 +71,12 @@ jobs:
           labels: |
             Bot: Automated PR
       - name: Check outputs
+        if: ${{ github.event.inputs.targetEnv == 'PRD' || inputs.targetEnv == 'PRD' }}
         run: |
           echo "Pull Request Number - ${{ steps.cpr.outputs.pull-request-number }}"
           echo "Pull Request URL - ${{ steps.cpr.outputs.pull-request-url }}"
-#       - name: automerge
-#         uses: "pascalgn/automerge-action@v0.14.3"
-#         env:
-#            GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
-#            PULL_REQUEST: "${{ steps.cpr.outputs.pull-request-number }}"
+      - name: automerge
+        uses: "pascalgn/automerge-action@v0.14.3"
+        env:
+           GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+           PULL_REQUEST: "${{ steps.cpr.outputs.pull-request-number }}"
