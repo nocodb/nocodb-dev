@@ -7,6 +7,13 @@ on:
       tag:
         description: "Tag"
         required: true
+      targetEnv:
+        description: "Target Environment"
+        required: true
+        type: choice
+        options:
+        - DEV
+        - PROD
   # Triggered by release-nocodb.yml
   workflow_call:
     inputs:
@@ -14,6 +21,13 @@ on:
         description: "Tag"
         required: true
         type: string
+      targetEnv:
+        description: "Target Environment"
+        required: true
+        type: string
+    secrets:
+      NPM_TOKEN:
+        required: true
 jobs:
   release:
     runs-on: ubuntu-latest
@@ -32,10 +46,10 @@ jobs:
       - run: |
           cd packages/nc-gui
           npm install
-          npm run build:copy:jsdeliver
+          targetEnv=${{ github.event.inputs.targetEnv || inputs.targetEnv }} targetVersion=${{ github.event.inputs.tag || inputs.tag }} npm run build:copy:jsdeliver
           cd ../..
           npm install
-          VERSION=${{ github.event.inputs.tag || inputs.tag }} node scripts/upgradeNcGui.js && cd packages/nocodb && npm run obfuscate:build:publish
+          targetEnv=${{ github.event.inputs.targetEnv || inputs.targetEnv }} targetVersion=${{ github.event.inputs.tag || inputs.tag }} node scripts/upgradeNcGui.js && cd packages/nocodb && npm run obfuscate:build:publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
       - name: Create Pull Request
@@ -57,8 +71,8 @@ jobs:
         run: |
           echo "Pull Request Number - ${{ steps.cpr.outputs.pull-request-number }}"
           echo "Pull Request URL - ${{ steps.cpr.outputs.pull-request-url }}"
-      - name: automerge
-        uses: "pascalgn/automerge-action@v0.14.3"
-        env:
-           GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
-           PULL_REQUEST: "${{ steps.cpr.outputs.pull-request-number }}"
+#       - name: automerge
+#         uses: "pascalgn/automerge-action@v0.14.3"
+#         env:
+#            GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+#            PULL_REQUEST: "${{ steps.cpr.outputs.pull-request-number }}"
