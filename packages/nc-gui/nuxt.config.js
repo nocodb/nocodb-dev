@@ -175,9 +175,12 @@ export default {
         //   // if (v === '99') throw new Error('Package version reached 99')
         //   return `.${++v}`
         // });
-        packageJson.version = version
         if (process.env.targetEnv === 'DEV') {
+          // nightly build
+          packageJson.version = process.env.targetVersion
           packageJson.name += "-dev"
+        } else {
+          packageJson.version = version
         }
         console.log(packageJson.name)
         console.log(packageJson.version)

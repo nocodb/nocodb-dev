@@ -11,7 +11,7 @@ execSync(`cd packages/nocodb && npm install --save --save-exact nc-lib-gui@${ncL
 
 const nocodbPackageFilePath = path.join(__dirname, '..', 'packages', 'nocodb', 'package.json')
 const nocoLibPackage = JSON.parse(fs.readFileSync(nocodbPackageFilePath))
-nocoLibPackage.version = process.env.VERSION;
+nocoLibPackage.version = process.env.targetVersion;
 if (process.env.targetEnv === 'DEV') {
     nocoLibPackage.name += "-dev"
 }
