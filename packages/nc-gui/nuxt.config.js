@@ -184,8 +184,6 @@ export default {
         } else {
           packageJson.version = version
         }
-        console.log(packageJson.name)
-        console.log(packageJson.version)
         fs.writeFileSync('../nc-lib-gui/package.json', JSON.stringify(packageJson, 0, 2))
 
         // config.output.publicPath = `https://cdn.jsdelivr.net/npm/nc-lib-gui@${version}/lib/dist/`;

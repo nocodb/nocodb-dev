@@ -14,7 +14,7 @@ on:
         options:
         - DEV
         - PROD
-  # Triggered by release-nocodb.yml
+  # Triggered by release-nocodb.yml / release-nightly-dev.yml
   workflow_call:
     inputs:
       tag:
