@@ -50,7 +50,7 @@ jobs:
       
   # Build docker image and push to docker hub
   release-docker:
-    needs: release-npm
+    needs: [set-tag, release-npm]
     uses: ./.github/workflows/release-docker.yml
     with:
       tag: ${{ needs.set-tag.outputs.nightly_build_tag }}
