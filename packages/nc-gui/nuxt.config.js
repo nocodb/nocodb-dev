@@ -177,7 +177,8 @@ export default {
         // });
         if (process.env.targetEnv === 'DEV') {
           // nightly build
-          packageJson.version = process.env.targetVersion
+          // e.g. 0.84.2-20220220.1250
+          packageJson.version += `${packageJson.version}-${process.env.targetVersion}`
           packageJson.name += "-dev"
         } else {
           packageJson.version = version
