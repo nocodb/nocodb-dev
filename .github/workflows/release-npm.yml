@@ -46,10 +46,10 @@ jobs:
       - run: |
           cd packages/nc-gui
           npm install
-          targetEnv=${{ github.event.inputs.targetEnv || inputs.targetEnv }} npm run build:copy:jsdeliver
+          targetEnv=${{ github.event.inputs.targetEnv || inputs.targetEnv }} targetVersion=${{ github.event.inputs.tag || inputs.tag }} npm run build:copy:jsdeliver
           cd ../..
           npm install
-          targetEnv=${{ github.event.inputs.targetEnv || inputs.targetEnv }} VERSION=${{ github.event.inputs.tag || inputs.tag }} node scripts/upgradeNcGui.js && cd packages/nocodb && npm run obfuscate:build:publish
+          targetEnv=${{ github.event.inputs.targetEnv || inputs.targetEnv }} targetVersion=${{ github.event.inputs.tag || inputs.tag }} node scripts/upgradeNcGui.js && cd packages/nocodb && npm run obfuscate:build:publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
       - name: Create Pull Request
