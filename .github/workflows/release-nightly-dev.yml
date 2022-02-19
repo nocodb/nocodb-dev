@@ -46,6 +46,7 @@ jobs:
       targetEnv: ${{ github.event.inputs.targetEnv || 'DEV' }}
     secrets:
       NPM_TOKEN: "${{ secrets.NPM_TOKEN }}"
+#       GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
       
   # Build docker image and push to docker hub
   release-docker:
