@@ -11,9 +11,9 @@ on:
         options:
         - DEV
         - PROD
-  schedule:
+#   schedule:
     # at the end of every day
-    - cron: '0 0 * * *'
+#     - cron: '0 0 * * *'
     
 jobs:
   # enrich tag for nightly auto release
@@ -37,9 +37,19 @@ jobs:
         run: echo ${{ steps.tag-step.outputs.NIGHTLY_BUILD_TAG }}
     outputs:
       nightly_build_tag: ${{ steps.tag-step.outputs.NIGHTLY_BUILD_TAG }}
+  # Build frontend and backend and publish to npm
+  release-npm:
+    needs: set-tag
+    uses: ./.github/workflows/release-docker.yml
+    with:
+      tag: ${{ needs.set-tag.outputs.nightly_build_tag }}
+      targetEnv: ${{ github.event.inputs.targetEnv || 'DEV' }}
+    secrets:
+      NPM_TOKEN: "${{ secrets.NPM_TOKEN }}"
+      
   # Build docker image and push to docker hub
   release-docker:
-    needs: set-tag
+    needs: release-npm
     uses: ./.github/workflows/release-docker.yml
     with:
       tag: ${{ needs.set-tag.outputs.nightly_build_tag }}
