@@ -11,7 +11,7 @@ on:
         options:
         - DEV
 #         - PROD
-#   schedule:
+  schedule:
     # at the end of every day
     - cron: '0 0 * * *'
     
