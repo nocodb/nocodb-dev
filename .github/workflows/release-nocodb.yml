@@ -10,6 +10,13 @@ on:
       prev_tag:
         description: "Previous Tag"
         required: true
+      targetEnv:
+        description: "Target Environment"
+        required: true
+        type: choice
+        options:
+#         - DEV
+        - PROD
 jobs:
   # Close all issues with target tags 'Fixed' & 'Resolved'
   close-fixed-issues:

@@ -10,8 +10,8 @@ on:
         type: choice
         options:
         - DEV
-        - PROD
-  schedule:
+#         - PROD
+#   schedule:
     # at the end of every day
     - cron: '0 0 * * *'
     
