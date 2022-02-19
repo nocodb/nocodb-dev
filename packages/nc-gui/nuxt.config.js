@@ -178,8 +178,8 @@ export default {
         if (process.env.targetEnv === 'DEV') {
           // nightly build
           // e.g. 0.84.2-20220220.1250
-          packageJson.version += `${packageJson.version}-${process.env.targetVersion}`
-          packageJson.name += "-dev"
+          packageJson.version = `${packageJson.version}-${process.env.targetVersion}`
+          packageJson.name += "-dev2"
         } else {
           packageJson.version = version
         }
