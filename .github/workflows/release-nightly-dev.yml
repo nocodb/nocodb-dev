@@ -40,7 +40,7 @@ jobs:
   # Build frontend and backend and publish to npm
   release-npm:
     needs: set-tag
-    uses: ./.github/workflows/release-docker.yml
+    uses: ./.github/workflows/release-npm.yml
     with:
       tag: ${{ needs.set-tag.outputs.nightly_build_tag }}
       targetEnv: ${{ github.event.inputs.targetEnv || 'DEV' }}
