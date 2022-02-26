@@ -11,9 +11,9 @@ on:
         options:
         - DEV
 #         - PROD
-  schedule:
-    # at the end of every day
-    - cron: '0 0 * * *'
+#   schedule:
+#     at the end of every day
+#     - cron: '0 0 * * *'
     
 jobs:
   # enrich tag for nightly auto release
