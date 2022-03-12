@@ -13,6 +13,8 @@ jobs:
         node-version: [12]
     steps:
       - uses: actions/checkout@v2
+      - name: Make changes to pull request
+        run: date +%s > report.txt
       - name: Create Pull Request
         id: cpr
         uses: peter-evans/create-pull-request@v3
