@@ -12,6 +12,7 @@ jobs:
       matrix:
         node-version: [12]
     steps:
+      - uses: actions/checkout@v2
       - name: Create Pull Request
         id: cpr
         uses: peter-evans/create-pull-request@v3
