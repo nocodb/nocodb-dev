@@ -1,0 +1,37 @@
+name: "Test PR Merge"
+
+on:
+  # Triggered manually
+  workflow_dispatch:
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    env:
+      working-directory: ./packages/nocodb
+    strategy:
+      matrix:
+        node-version: [12]
+    steps:
+      - name: Create Pull Request
+        id: cpr
+        uses: peter-evans/create-pull-request@v3
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          signoff: true
+          branch: 'testBranchB'
+          delete-branch: true
+          title: 'Release Test - testBranchB'
+          labels: |
+            Bot: Automated PR
+            Bot: Automerge
+      - name: Check outputs
+        run: |
+          echo "Pull Request Number - ${{ steps.cpr.outputs.pull-request-number }}"
+          echo "Pull Request URL - ${{ steps.cpr.outputs.pull-request-url }}"
+      - name: automerge
+        uses: "pascalgn/automerge-action@v0.14.3"
+        env:
+          GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+          PULL_REQUEST: "${{ steps.cpr.outputs.pull-request-number }}"
+          MERGE_LABELS: "Bot: Automerge"
