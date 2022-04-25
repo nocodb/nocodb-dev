@@ -28,6 +28,8 @@ jobs:
     steps:
       - run: |
           echo 'triggering release-draft'
+          echo ${{ github.event.inputs.tag || inputs.tag }}
+          echo ${{ github.event.inputs.prev_tag || inputs.prev_tag }}
     # steps:
     #   - name: Create tag
     #     uses: actions/github-script@v3
