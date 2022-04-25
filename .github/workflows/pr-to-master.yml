@@ -12,7 +12,9 @@ jobs:
       - run: |
           echo 'triggering pr-to-master'
       - name: Checkout
-        uses: actions/checkout@v1
+        uses: actions/checkout@v2
+        with:
+          path: develop
 
       - name: Create Pull Request
         # if: ${{ github.event.inputs.targetEnv == 'PRD' || inputs.targetEnv == 'PRD' }}
@@ -22,9 +24,8 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           signoff: true
-          base: 'master'
-          branch: 'develop'
-          delete-branch: false
+          branch: 'release/${{ github.event.inputs.tag || inputs.tag }}'
+          delete-branch: true
           title: '${{ github.event.inputs.tag || inputs.tag }} Pre-release'
           labels: |
             Bot: Automated PR
