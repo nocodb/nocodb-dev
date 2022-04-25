@@ -44,8 +44,8 @@ jobs:
             # bump the version from PREV_TAG
             TARGET_TAG=$(echo ${PREV_TAG} | awk -F. -v OFS=. '{$NF += 1 ; print}')
           fi
-          echo ${TARGET_TAG}
-          echo ${PREV_TAG}
+          echo target version: ${TARGET_TAG}
+          echo previous version: ${PREV_TAG}
           echo "::set-output name=target_tag::${TARGET_TAG}"
           echo "::set-output name=prev_tag::${PREV_TAG}"
       - name: Verifiy
