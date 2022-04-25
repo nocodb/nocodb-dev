@@ -24,7 +24,7 @@ jobs:
           signoff: true
           base: 'master'
           branch: 'develop'
-          delete-branch: true
+          delete-branch: false
           title: '${{ github.event.inputs.tag || inputs.tag }} Pre-release'
           labels: |
             Bot: Automated PR
