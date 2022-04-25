@@ -3,8 +3,33 @@ name: 'PR to master branch from develop with release tag'
 on:
   # Triggered manually
   workflow_dispatch:
+    inputs:
+      tag:
+        description: "Tag"
+        required: true
+      targetEnv:
+        description: "Target Environment"
+        required: true
+        type: choice
+        options:
+        - DEV
+        - PROD
   # Triggered by release-nocodb.yml
   workflow_call:
+    inputs:
+      tag:
+        description: "Tag"
+        required: true
+        type: string
+      targetEnv:
+        description: "Target Environment"
+        required: true
+        type: string
+    secrets:
+      NPM_TOKEN:
+        required: true
+#       GITHUB_TOKEN:
+#         required: true
 jobs:
   pr-to-master:
     runs-on: ubuntu-latest
