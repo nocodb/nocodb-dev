@@ -32,13 +32,15 @@ jobs:
     steps:
       - run: |
           echo 'triggering pr-to-master'
+          echo ${{ github.event.inputs.tag || inputs.tag }}
+          echo ${{ github.event.inputs.targetEnv || inputs.targetEnv }}
       - name: Checkout
         uses: actions/checkout@v2
         with:
           path: develop
 
       - name: Create Pull Request
-        # if: ${{ github.event.inputs.targetEnv == 'PRD' || inputs.targetEnv == 'PRD' }}
+        if: ${{ github.event.inputs.targetEnv == 'PROD' || inputs.targetEnv == 'PROD' }}
         id: cpr
         uses: peter-evans/create-pull-request@v3
         env:
@@ -52,7 +54,7 @@ jobs:
           labels: |
             Bot: Automated PR
       - name: Check outputs
-        # if: ${{ github.event.inputs.targetEnv == 'PROD' || inputs.targetEnv == 'PROD' }}
+        if: ${{ github.event.inputs.targetEnv == 'PROD' || inputs.targetEnv == 'PROD' }}
         run: |
           echo "Pull Request Number - ${{ steps.cpr.outputs.pull-request-number }}"
           echo "Pull Request URL - ${{ steps.cpr.outputs.pull-request-url }}"
