@@ -1,0 +1,39 @@
+name: 'PR to master branch from develop with release tag'
+
+on:
+  # Triggered manually
+  workflow_dispatch:
+  # Triggered by release-nocodb.yml
+  workflow_call:
+jobs:
+  pr-to-master:
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          echo 'triggering pr-to-master'
+      - name: Checkout
+        uses: actions/checkout@v1
+
+      - name: Create Pull Request
+        # if: ${{ github.event.inputs.targetEnv == 'PRD' || inputs.targetEnv == 'PRD' }}
+        id: cpr
+        uses: peter-evans/create-pull-request@v3
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          signoff: true
+          branch: 'develop/${{ github.event.inputs.tag || inputs.tag }}'
+          delete-branch: true
+          title: '${{ github.event.inputs.tag || inputs.tag }} Pre-release'
+          labels: |
+            Bot: Automated PR
+      - name: Check outputs
+        # if: ${{ github.event.inputs.targetEnv == 'PROD' || inputs.targetEnv == 'PROD' }}
+        run: |
+          echo "Pull Request Number - ${{ steps.cpr.outputs.pull-request-number }}"
+          echo "Pull Request URL - ${{ steps.cpr.outputs.pull-request-url }}"
+      - name: automerge
+        uses: "pascalgn/automerge-action@v0.14.3"
+        env:
+           GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+           PULL_REQUEST: "${{ steps.cpr.outputs.pull-request-number }}"

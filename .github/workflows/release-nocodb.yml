@@ -46,9 +46,9 @@ jobs:
           echo "::set-output name=prev_tag::${PREV_TAG}"
 
   # Merge develop to master
-  sync-to-master:
+  pr-to-master:
     needs: process-input
-    uses: ./.github/workflows/sync-to-master.yml
+    uses: ./.github/workflows/pr-to-master.yml
 
   # Close all issues with target tags 'Fixed' & 'Resolved'
   close-fixed-issues:
