@@ -31,12 +31,12 @@ jobs:
           TARGET_TAG=${{github.event.inputs.tag}}
           PREV_TAG=${{github.event.inputs.prev_tag}}
 
-          if [[ ${ PREV_TAG } == '' ]]; then
+          if [[ ${PREV_TAG} == '' ]]; then
             # fetch the latest version
             PREV_TAG=$(basename $(curl -fs -o/dev/null -w %{redirect_url} https://github.com/nocodb/nocodb/releases/latest))
           fi
 
-          if [[ ${ TARGET_TAG } == '' ]]; then
+          if [[ ${TARGET_TAG} == '' ]]; then
             # bump the version from PREV_TAG
             TARGET_TAG=$(echo ${PREV_TAG} | awk -F. -v OFS=. '{$NF += 1 ; print}')
           fi
