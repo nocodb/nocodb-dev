@@ -12,15 +12,15 @@ jobs:
         - run: |
             echo 'triggering sync-to-develop'
           
-      - name: Checkout
-        uses: actions/checkout@v1
+        - name: Checkout
+          uses: actions/checkout@v1
 
-      - name: Merge from master to develop
-        uses: wingkwong/gh-action-nightly-merge@master
-        with:
-          stable_branch: 'master'
-          development_branch: 'develop'
-          allow_ff: true
-          allow_forks: true
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        - name: Merge from master to develop
+          uses: wingkwong/gh-action-nightly-merge@master
+          with:
+            stable_branch: 'master'
+            development_branch: 'develop'
+            allow_ff: true
+            allow_forks: true
+          env:
+            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
