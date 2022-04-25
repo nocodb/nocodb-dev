@@ -32,6 +32,8 @@ jobs:
     steps:
       - run: |
           echo 'triggering pr-to-master'
+          echo ${{ github.event.inputs.tag }}
+          echo ${{ inputs.tag }}
           echo ${{ github.event.inputs.tag || inputs.tag }}
           echo ${{ github.event.inputs.targetEnv || inputs.targetEnv }}
       # - name: Checkout
