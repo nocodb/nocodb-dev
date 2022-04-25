@@ -7,10 +7,10 @@ on:
   workflow_call:
 jobs:
     sync-to-develop:
-    runs-on: ubuntu-latest
-    steps:
-      - run: |
-          echo 'triggering sync-to-develop'
+      runs-on: ubuntu-latest
+      steps:
+        - run: |
+            echo 'triggering sync-to-develop'
           
       # - name: Checkout
       #   uses: actions/checkout@v1
