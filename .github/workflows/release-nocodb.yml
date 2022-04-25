@@ -49,6 +49,9 @@ jobs:
   pr-to-master:
     needs: process-input
     uses: ./.github/workflows/pr-to-master.yml
+    with:
+      tag: ${{ needs.process-input.outputs.target_tag }}
+      targetEnv: ${{ github.event.inputs.targetEnv || 'PROD' }}
 
   # Close all issues with target tags 'Fixed' & 'Resolved'
   close-fixed-issues:
