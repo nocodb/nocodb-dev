@@ -35,7 +35,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
         with:
-          path: develop
+          ref: develop
 
       - name: Create Pull Request
         if: ${{ github.event.inputs.targetEnv == 'PROD' || inputs.targetEnv == 'PROD' }}
