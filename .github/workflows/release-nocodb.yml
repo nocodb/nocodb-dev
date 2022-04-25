@@ -47,7 +47,7 @@ jobs:
 
   # Merge develop to master
   pr-to-master:
-    needs: process-input
+    needs: [process-input]
     uses: ./.github/workflows/pr-to-master.yml
     with:
       tag: ${{ needs.process-input.outputs.target_tag }}
