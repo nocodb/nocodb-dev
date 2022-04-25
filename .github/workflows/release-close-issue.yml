@@ -25,10 +25,13 @@ jobs:
   close-issues:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@master
-      - name: close-resolved-issues
-        uses: wingkwong/close-issues-based-on-label@master
-        env:
-          LABEL: ${{ github.event.inputs.issue_label || inputs.issue_label }}
-          VERSION: ${{ github.event.inputs.version || inputs.version }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - run: |
+          echo 'triggering release-close-issue'
+    # steps:
+    #   - uses: actions/checkout@master
+    #   - name: close-resolved-issues
+    #     uses: wingkwong/close-issues-based-on-label@master
+    #     env:
+    #       LABEL: ${{ github.event.inputs.issue_label || inputs.issue_label }}
+    #       VERSION: ${{ github.event.inputs.version || inputs.version }}
+    #       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
