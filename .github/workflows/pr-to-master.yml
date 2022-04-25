@@ -22,7 +22,8 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           signoff: true
-          branch: 'develop/${{ github.event.inputs.tag || inputs.tag }}'
+          base: 'master'
+          branch: 'develop'
           delete-branch: true
           title: '${{ github.event.inputs.tag || inputs.tag }} Pre-release'
           labels: |
