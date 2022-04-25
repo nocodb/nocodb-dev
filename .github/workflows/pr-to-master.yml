@@ -45,7 +45,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           signoff: true
-          base: 'master'
           branch: 'release/${{ github.event.inputs.tag || inputs.tag }}'
           delete-branch: true
           title: '${{ github.event.inputs.tag || inputs.tag }} Pre-release'
