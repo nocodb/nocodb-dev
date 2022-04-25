@@ -44,6 +44,9 @@ jobs:
           echo ${PREV_TAG}
           echo "::set-output name=target_tag::${TARGET_TAG}"
           echo "::set-output name=prev_tag::${PREV_TAG}"
+      - name: Verifiy
+        run : |
+          echo ${{ steps.process-input.outputs.target_tag }} 
 
   # Merge develop to master
   pr-to-master:
