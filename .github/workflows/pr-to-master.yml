@@ -25,11 +25,7 @@ on:
         description: "Target Environment"
         required: true
         type: string
-    secrets:
-      NPM_TOKEN:
-        required: true
-#       GITHUB_TOKEN:
-#         required: true
+        
 jobs:
   pr-to-master:
     runs-on: ubuntu-latest
