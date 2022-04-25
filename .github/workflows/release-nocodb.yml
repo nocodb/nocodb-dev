@@ -52,7 +52,7 @@ jobs:
 
   # Close all issues with target tags 'Fixed' & 'Resolved'
   close-fixed-issues:
-    needs: [sync-to-master, process-input]
+    needs: [pr-to-master, process-input]
     uses: ./.github/workflows/release-close-issue.yml
     with:
       issue_label: 'Status: Fixed'
