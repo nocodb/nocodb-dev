@@ -2,16 +2,15 @@ name: 'PR Release'
 
 on:
   pull_request:
-    types: [
-      opened, # pull request is created
-      reopened, # closed pull request is reopened
-      synchronize # commit(s) pushed to the pull request
-    ]
-  paths:
-    - "packages/nocodb-sdk/**"
-    - "packages/nc-gui/**"
-    - "packages/nc-plugin/**"
-    - "packages/nocodb/**"
+    # opened: pull request is created
+    # reopened: closed pull request is reopened
+    # synchronize: commit(s) pushed to the pull request
+    types: [opened, reopened, synchronize]
+    paths:
+      - "packages/nocodb-sdk/**"
+      - "packages/nc-gui/**"
+      - "packages/nc-plugin/**"
+      - "packages/nocodb/**"
 jobs:
   # Validate Branch
   validate-branch:
