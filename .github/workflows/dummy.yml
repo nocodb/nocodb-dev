@@ -22,7 +22,6 @@ jobs:
           git config user.name 'nocodb'
           git config user.email 'nocodb@users.noreply.github.com'
           date +%s > report.txt
-          git commit -am "Modify tracked file during workflow"
           date +%s > new-report.txt
           git add -A
           git commit -m "Add untracked file during workflow"
