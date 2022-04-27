@@ -18,6 +18,7 @@ jobs:
       - run: |
           echo ${{ github.ref }}
           echo $GITHUB_REF
+          echo "${GITHUB_REF##*/}"
           if [[ ${{ github.ref }} != 'refs/heads/master' ]]; then
             echo "NocoDB Release is only allowed to run on master branch"
             exit 1
