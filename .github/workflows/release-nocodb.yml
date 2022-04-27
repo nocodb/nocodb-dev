@@ -50,6 +50,8 @@ jobs:
           echo "::set-output name=prev_tag::${PREV_TAG}"
       - name: Verifiy
         run : |
+          echo ${{ github.ref }}
+          echo $GITHUB_REF
           echo ${{ steps.process-input.outputs.target_tag }} 
 
   # Merge develop to master

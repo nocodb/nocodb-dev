@@ -12,8 +12,8 @@ on:
         required: true
         type: choice
         options:
-        - DEV
-        - PROD
+          - DEV
+          - PROD
   # Triggered by release-nocodb.yml / release-nightly-dev.yml
   workflow_call:
     inputs:
@@ -24,6 +24,10 @@ on:
       targetEnv:
         description: "Target Environment"
         required: true
+        type: string
+      isDaily:
+        description: "Is it triggered by daily schedule"
+        required: false
         type: string
     secrets:
       DOCKERHUB_USERNAME:
