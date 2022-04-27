@@ -17,6 +17,7 @@ jobs:
         with:
           fetch-depth: 0
           ref: ${{ github.ref }}
+      - name: push
         run: |
           git config user.name 'nocodb'
           git config user.email 'nocodb@users.noreply.github.com'
