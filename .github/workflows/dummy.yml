@@ -14,9 +14,9 @@ jobs:
     steps:
       - name: Create commits
         uses: actions/checkout@v2
-          with:
-            fetch-depth: 0
-            ref: ${{ github.ref }}
+        with:
+          fetch-depth: 0
+          ref: ${{ github.ref }}
         run: |
           git config user.name 'nocodb'
           git config user.email 'nocodb@users.noreply.github.com'
