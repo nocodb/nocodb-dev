@@ -17,7 +17,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - run: |
-
+          echo ${{ github.ref }}
           echo ${{github.ref_name}}
           if [[ ${{ github.base_ref }} != 'develop' ]]; then
             echo "PR Release only runs on develop as a base branch"
