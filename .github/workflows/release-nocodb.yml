@@ -57,31 +57,32 @@ jobs:
           echo $GITHUB_REF
           echo ${{ steps.process-input.outputs.target_tag }} 
 
-  # Merge develop to master
-  pr-to-master:
-    needs: process-input
-    uses: ./.github/workflows/pr-to-master.yml
-    with:
-      tag: ${{ needs.process-input.outputs.target_tag }}
-      targetEnv: ${{ github.event.inputs.targetEnv || 'PROD' }}
+#   # Merge develop to master
+#   pr-to-master:
+#     needs: process-input
+#     uses: ./.github/workflows/pr-to-master.yml
+#     with:
+#       tag: ${{ needs.process-input.outputs.target_tag }}
+#       targetEnv: ${{ github.event.inputs.targetEnv || 'PROD' }}
 
-  # Close all issues with target tags 'Fixed' & 'Resolved'
-  close-fixed-issues:
-    needs: [pr-to-master, process-input]
-    uses: ./.github/workflows/release-close-issue.yml
-    with:
-      issue_label: 'Status: Fixed'
-      version: ${{ needs.process-input.outputs.target_tag }}
-  close-resolved-issues:
-    needs: [close-fixed-issues, process-input]
-    uses: ./.github/workflows/release-close-issue.yml
-    with:
-      issue_label: 'Status: Resolved'
-      version: ${{ needs.process-input.outputs.target_tag }}
+#   # Close all issues with target tags 'Fixed' & 'Resolved'
+#   close-fixed-issues:
+#     needs: [pr-to-master, process-input]
+#     uses: ./.github/workflows/release-close-issue.yml
+#     with:
+#       issue_label: 'Status: Fixed'
+#       version: ${{ needs.process-input.outputs.target_tag }}
+#   close-resolved-issues:
+#     needs: [close-fixed-issues, process-input]
+#     uses: ./.github/workflows/release-close-issue.yml
+#     with:
+#       issue_label: 'Status: Resolved'
+#       version: ${{ needs.process-input.outputs.target_tag }}
 
   # Build, install, publish frontend and backend to npm
   release-npm:
-    needs: [close-resolved-issues, process-input]
+    needs: [process-input]
+#     needs: [close-resolved-issues, process-input]
     uses: ./.github/workflows/release-npm.yml
     with:
       tag: ${{ needs.process-input.outputs.target_tag }}
@@ -89,13 +90,13 @@ jobs:
     secrets:
       NPM_TOKEN: "${{ secrets.NPM_TOKEN }}"
 
-  # Draft Release Note
-  release-draft-note:
-    needs: [release-npm, process-input]
-    uses: ./.github/workflows/release-draft.yml
-    with:
-      tag: ${{ needs.process-input.outputs.target_tag }}
-      prev_tag: ${{ needs.process-input.outputs.prev_tag }}
+#   # Draft Release Note
+#   release-draft-note:
+#     needs: [release-npm, process-input]
+#     uses: ./.github/workflows/release-draft.yml
+#     with:
+#       tag: ${{ needs.process-input.outputs.target_tag }}
+#       prev_tag: ${{ needs.process-input.outputs.prev_tag }}
 
   # Build docker image and push to docker hub
   release-docker:
