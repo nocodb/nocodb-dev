@@ -1,0 +1,34 @@
+name: 'Dummy PR Release'
+
+on:
+  pull_request:
+    # opened: pull request is created
+    # reopened: closed pull request is reopened
+    # synchronize: commit(s) pushed to the pull request
+    types: [opened, reopened, synchronize]
+
+jobs:
+  # Validate Branch
+  validate-branch:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Create commits
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+          ref: ${{ github.ref }}
+      - name: push
+        run: |
+          git config user.name 'nocodb'
+          git config user.email 'nocodb@users.noreply.github.com'
+          date +%s > report.txt
+          git commit -am "Modify tracked file during workflow"
+          date +%s > new-report.txt
+          git add -A
+          git commit -m "Add untracked file during workflow"
+          git push
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+          ref: ${{ github.ref }}
