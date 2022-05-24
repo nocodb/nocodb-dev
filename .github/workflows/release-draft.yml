@@ -45,7 +45,7 @@ jobs:
               owner: context.repo.owner,
               repo: context.repo.repo,
               ref: "refs/tags/${{ github.event.inputs.tag || inputs.tag }}",
-              sha:  $(git rev-parse HEAD~2)
+              sha: "$(git rev-parse HEAD~2)"
             })
 
 
