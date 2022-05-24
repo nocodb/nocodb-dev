@@ -40,22 +40,22 @@ jobs:
           TARGET_SHA=$(git rev-parse HEAD~2)
           # echo "::set-output name=TARGET_SHA::${TARGET_SHA}"
           # echo "${{steps.get-sha.outputs.TARGET_SHA}}"
-          git config user.name "GitHub Actions Bot"
-          git config user.email "<>"
-          git tag -a "${{ github.event.inputs.tag || inputs.tag }}" ${TARGET_SHA} -m "${{ github.event.inputs.tag || inputs.tag }} Release"
-          git push origin --tags
+          # git config user.name "GitHub Actions Bot"
+          # git config user.email "<>"
+          # git tag -a "${{ github.event.inputs.tag || inputs.tag }}" ${TARGET_SHA} -m "${{ github.event.inputs.tag || inputs.tag }} Release"
+          # git push origin --tags
       
-      # - name: Create tag
-      #   uses: actions/github-script@v3
-      #   with:
-      #     github-token: ${{ secrets.GITHUB_TOKEN }}
-      #     script: |
-      #       github.git.createRef({
-      #         owner: context.repo.owner,
-      #         repo: context.repo.repo,
-      #         ref: "refs/tags/${{ github.event.inputs.tag || inputs.tag }}",
-      #         sha: "${{steps.get-sha.outputs.TARGET_SHA}}"
-      #       })
+      - name: Create tag
+        uses: actions/github-script@v3
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            github.git.createRef({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              ref: "refs/tags/${{ github.event.inputs.tag || inputs.tag }}",
+              sha: $(git rev-parse HEAD~2)
+            })
 
 
     #   - uses: actions/setup-node@v2
