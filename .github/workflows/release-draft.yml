@@ -30,7 +30,8 @@ jobs:
           echo 'triggering release-draft'
           echo ${{ github.event.inputs.tag || inputs.tag }}
           echo ${{ github.event.inputs.prev_tag || inputs.prev_tag }}
-          echo "${{ toJson(github) }}"| jq '.event.commits[].id' | tail -2 | head -1 |sed 's/\"//g'
+          GITHUB_CONTEXT=${{ toJson(github) }}
+          echo "$GITHUB_CONTEXT" | jq '.event.commits[].id' | tail -2 | head -1 |sed 's/\"//g'
           
       - name: Create tag
         uses: actions/github-script@v3
