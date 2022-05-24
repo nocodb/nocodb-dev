@@ -49,7 +49,7 @@ jobs:
       - name: Push Tag
         uses: actions/github-script@v3
         with:
-          github-token: ${{ secrets.PAT }}
+          github-token: ${{ secrets.NC_GITHUB_TOKEN }}
           script: |
             github.git.createRef({
               owner: context.repo.owner,
