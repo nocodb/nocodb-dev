@@ -39,7 +39,7 @@ jobs:
           echo $(git rev-parse HEAD~2)
           TARGET_SHA=$(git rev-parse HEAD~2)
           echo "::set-output name=TARGET_SHA::${TARGET_SHA}"
-          echo "${steps.get-sha.outputs.TARGET_SHA}"
+          echo "${{steps.get-sha.outputs.TARGET_SHA}}"
           
       - name: Create tag
         uses: actions/github-script@v3
@@ -50,7 +50,7 @@ jobs:
               owner: context.repo.owner,
               repo: context.repo.repo,
               ref: "refs/tags/${{ github.event.inputs.tag || inputs.tag }}",
-              sha: "${steps.get-sha.outputs.TARGET_SHA}"
+              sha: "${{steps.get-sha.outputs.TARGET_SHA}}"
             })
 
 
