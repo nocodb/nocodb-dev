@@ -26,6 +26,10 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+          
       - run: |
           echo 'triggering release-draft'
           echo ${{ github.event.inputs.tag || inputs.tag }}
@@ -44,9 +48,6 @@ jobs:
               sha:  $(git rev-parse HEAD~2)
             })
 
-    #   - uses: actions/checkout@v2
-    #     with:
-    #       fetch-depth: 0
 
     #   - uses: actions/setup-node@v2
     #     with:
