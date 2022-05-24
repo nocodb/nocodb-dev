@@ -30,7 +30,6 @@ jobs:
         with:
           fetch-depth: 0
           ref: ${{ github.ref }}
-          token: ${{ secrets.GH_TOKEN }}
         
       - name: Create tag
         id: get-sha
@@ -53,6 +52,7 @@ jobs:
           tag: "${{ github.event.inputs.tag || inputs.tag }}"
           message: "${{ github.event.inputs.tag || inputs.tag }} Release"
           commit_sha: "${{steps.get-sha.outputs.TARGET_SHA}}"
+          github_token: ${{ secrets.GITHUB_TOKEN }}
 
     #   - uses: actions/setup-node@v2
     #     with:
