@@ -30,8 +30,7 @@ jobs:
           echo 'triggering release-draft'
           echo ${{ github.event.inputs.tag || inputs.tag }}
           echo ${{ github.event.inputs.prev_tag || inputs.prev_tag }}
-          GITHUB_CONTEXT=${{ toJson(github) }}
-          echo "$GITHUB_CONTEXT" | jq '.event.commits[].id' | tail -2 | head -1 |sed 's/\"//g'
+          echo $(git rev-parse HEAD~2)
           
       - name: Create tag
         uses: actions/github-script@v3
@@ -42,7 +41,7 @@ jobs:
               owner: context.repo.owner,
               repo: context.repo.repo,
               ref: "refs/tags/${{ github.event.inputs.tag || inputs.tag }}",
-              sha: context.sha
+              sha:  $(git rev-parse HEAD~2)
             })
 
     #   - uses: actions/checkout@v2
