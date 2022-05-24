@@ -46,18 +46,12 @@ jobs:
           # git tag -a "${{ github.event.inputs.tag || inputs.tag }}" ${TARGET_SHA} -m "${{ github.event.inputs.tag || inputs.tag }} Release"
           # git push origin --tags
       
-      - name: Create tag
-        uses: actions/github-script@v3
+      
+      - uses: rickstaa/action-create-tag@v1
         with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          script: |
-            github.git.createRef({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              ref: "refs/tags/${{ github.event.inputs.tag || inputs.tag }}",
-              sha: "${{steps.get-sha.outputs.TARGET_SHA}}"
-            })
-
+          tag: "${{ github.event.inputs.tag || inputs.tag }}"
+          message: "${{ github.event.inputs.tag || inputs.tag }} Release"
+          commit_sha: "${{steps.get-sha.outputs.TARGET_SHA}}"
 
     #   - uses: actions/setup-node@v2
     #     with:
