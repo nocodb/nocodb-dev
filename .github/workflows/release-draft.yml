@@ -52,7 +52,7 @@ jobs:
           tag: "${{ github.event.inputs.tag || inputs.tag }}"
           message: "${{ github.event.inputs.tag || inputs.tag }} Release"
           commit_sha: "${{steps.get-sha.outputs.TARGET_SHA}}"
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+          github_token: ${{ secrets.PAT }}
 
     #   - uses: actions/setup-node@v2
     #     with:
