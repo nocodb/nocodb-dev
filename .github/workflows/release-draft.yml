@@ -30,6 +30,7 @@ jobs:
         with:
           fetch-depth: 0
           ref: ${{ github.ref }}
+          token: ${{ secrets.GH_TOKEN }}
         
       - name: Create tag
         id: get-sha
