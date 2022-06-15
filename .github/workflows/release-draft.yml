@@ -40,7 +40,9 @@ jobs:
         # else HEAD will be taken
         run: |
           TARGET_SHA=$(git rev-parse HEAD~2)
-          echo "SHA: ${TARGET_SHA}"
+          if [[ ${{ github.event_name }} == 'workflow_dispatch' ]]; then
+            TARGET_SHA=$(git rev-parse HEAD)
+          fi
           echo "::set-output name=TARGET_SHA::${TARGET_SHA}"
           echo "Setting TARGET_SHA: ${{steps.get-sha.outputs.TARGET_SHA}}"
       - name: Create tag
@@ -56,7 +58,3 @@ jobs:
               ref: "refs/tags/${{ github.event.inputs.tag || inputs.tag }}",
               sha: "${{steps.get-sha.outputs.TARGET_SHA}}"
             })
-#       - uses: actions/setup-node@v2
-#         with:
-#           node-version: 16
-#       - run: "npx github-release-notes@0.17.2  release --token ${{ secrets.GITHUB_TOKEN }}  --draft --tags ${{ github.event.inputs.tag || inputs.tag }}..${{ github.event.inputs.prev_tag || inputs.prev_tag }}"
