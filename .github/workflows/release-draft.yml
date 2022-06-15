@@ -35,6 +35,7 @@ jobs:
         id: get-sha
         run: |
           echo 'triggering release-draft'
+          echo "github ref: ${{ github.ref }}"
           echo ${{ github.event.inputs.tag || inputs.tag }}
           echo ${{ github.event.inputs.prev_tag || inputs.prev_tag }}
           echo $(git rev-parse HEAD~2)
