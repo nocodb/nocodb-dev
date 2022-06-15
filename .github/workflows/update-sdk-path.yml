@@ -1,0 +1,36 @@
+name: "Update SDK Path"
+
+on:
+  # Triggered manually
+  workflow_dispatch:
+  # Triggered by release-nocodb.yml
+  workflow_call:
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+        
+      - run: |
+          cd packages/nocodb
+          npm install --save --save-exact nocodb-sdk@file:../nocodb-sdk
+          cd ../..
+          cd packages/nc-gui
+          npm install --save --save-exact nocodb-sdk@file:../nocodb-sdk
+
+      - name: Create Pull Request
+        id: cpr
+        uses: peter-evans/create-pull-request@v3
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          signoff: true
+          branch: 'bot/update-nocodb-sdk-path'
+          delete-branch: true
+          title: 'Update nocodb-sdk to local path'
+          labels: |
+            Bot: Automated PR
+            Bot: Automerge
