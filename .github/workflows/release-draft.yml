@@ -40,9 +40,12 @@ jobs:
         # else HEAD will be taken
         run: |
           TARGET_SHA=$(git rev-parse HEAD~2)
+          echo "event: ${{ github.event_name }}"
           if [[ ${{ github.event_name }} == 'workflow_dispatch' ]]; then
+            echo "HERE..."
             TARGET_SHA=$(git rev-parse HEAD)
           fi
+          echo "SHA: ${TARGET_SHA}"
           echo "::set-output name=TARGET_SHA::${TARGET_SHA}"
           echo "Setting TARGET_SHA: ${{steps.get-sha.outputs.TARGET_SHA}}"
       - name: Create tag
